@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 2.8.12)
 
 project(snake)
 
@@ -9,7 +9,9 @@ if (WIN32)
   link_directories("${SDL2_DIR}/lib/x86/")
 else ()
   find_package(SDL2 REQUIRED)
-  include_directories(${SDL2_INCLUDE_DIRS})
+  message ([STATUS] " SDL2_INCLUDE_DIR " ${SDL2_INCLUDE_DIRS})
+  message ([STATUS] " SDL2_LIBRARY " ${SDL2_LIBRARIES})
+  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src" ${SDL2_INCLUDE_DIRS})
 endif()
 
 file(GLOB SOURCES "src/*.cpp")
@@ -17,7 +19,7 @@ file(GLOB HEADERS "src/*.h")
 
 add_executable(snake WIN32  ${SOURCES} ${HEADERS})
 
-target_link_libraries(snake SDL2 SDL2main)
+target_link_libraries(snake SDL2 SDL2main ${SDL2_LIBRARIES})
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 

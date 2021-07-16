@@ -12,7 +12,8 @@ void updateSnake(Snake* snake) {
 
 void increaseSnake(Snake* snake) {
 	SDL_Rect head = snake->shapes.front();
-	snake->shapes.push_front({ head.x, head.y, SQUARE_SIZE, SQUARE_SIZE });
+	SDL_Rect new_shape = { head.x, head.y, SQUARE_SIZE, SQUARE_SIZE };
+	snake->shapes.push_front(new_shape);
 }
 
 void drawSnake(SDL_Renderer* render, Snake* snake) {
@@ -30,11 +31,14 @@ Snake initSnake() {
     
 	int initial_x = randomX();
 	int initial_y = randomY();
-    
-	shapes.push_back({ initial_x , initial_y, SQUARE_SIZE, SQUARE_SIZE });
-	shapes.push_back({ initial_x, initial_y - 20, SQUARE_SIZE, SQUARE_SIZE });
-	shapes.push_back({ initial_x, initial_y - 40, SQUARE_SIZE, SQUARE_SIZE });
+	SDL_Rect head = { initial_x , initial_y, SQUARE_SIZE, SQUARE_SIZE };
+    SDL_Rect body = { initial_x, initial_y - 20, SQUARE_SIZE, SQUARE_SIZE };
+	SDL_Rect tail = { initial_x, initial_y - 40, SQUARE_SIZE, SQUARE_SIZE };
+	shapes.push_back(head);
+	shapes.push_back(body);
+	shapes.push_back(tail);
 	
 	Vect2d direction = DOWN;
-	return { direction, shapes};
+	Snake snake = { direction, shapes};
+	return snake;
 }
